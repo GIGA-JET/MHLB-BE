@@ -63,6 +63,8 @@
 [Backend Repository](https://github.com/GIGA-JET/MHLB-BE)  
 [Giga Jet Notion](https://daydreampioneer.notion.site/GIGA-JET-8dce960c73884b9499afa03b33e97ff4)
 
+<br/>
+
 # 💻 기술 스택
 
 <div>
