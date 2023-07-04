@@ -44,6 +44,12 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String myAddress;
 
+    /*
+        메일 발송이 매우 느린 이슈가 있음
+
+        TODO : 메일 발송을 비동기 처리로 바꿔보기
+     */
+
     // 비밀번호 찾기 메일 발송
     public ResponseEntity<SendMessageDto> sendFindPasswordMail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.UNREGISTER_USER));
