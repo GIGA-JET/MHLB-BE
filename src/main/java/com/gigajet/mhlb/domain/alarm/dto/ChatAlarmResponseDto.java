@@ -1,7 +1,7 @@
 package com.gigajet.mhlb.domain.alarm.dto;
 
-import com.gigajet.mhlb.domain.alarm.Entity.Alarm;
-import com.gigajet.mhlb.domain.alarm.Entity.AlarmTypeEnum;
+import com.gigajet.mhlb.domain.alarm.entity.Alarm;
+import com.gigajet.mhlb.domain.alarm.entity.AlarmTypeEnum;
 import com.gigajet.mhlb.domain.chat.dto.ChatRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

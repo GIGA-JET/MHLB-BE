@@ -1,4 +1,4 @@
-package com.gigajet.mhlb.domain.alarm.Entity;
+package com.gigajet.mhlb.domain.alarm.entity;
 
 import com.gigajet.mhlb.domain.user.entity.User;
 import lombok.Builder;

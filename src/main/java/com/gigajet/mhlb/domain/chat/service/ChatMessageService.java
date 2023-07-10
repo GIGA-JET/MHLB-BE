@@ -1,8 +1,8 @@
 package com.gigajet.mhlb.domain.chat.service;
 
-import com.gigajet.mhlb.domain.alarm.Entity.Alarm;
-import com.gigajet.mhlb.domain.alarm.Entity.AlarmTypeEnum;
-import com.gigajet.mhlb.domain.alarm.Repository.AlarmRepository;
+import com.gigajet.mhlb.domain.alarm.entity.Alarm;
+import com.gigajet.mhlb.domain.alarm.entity.AlarmTypeEnum;
+import com.gigajet.mhlb.domain.alarm.repository.AlarmRepository;
 import com.gigajet.mhlb.domain.alarm.dto.ChatAlarmResponseDto;
 import com.gigajet.mhlb.domain.chat.dto.ChatRequestDto;
 import com.gigajet.mhlb.domain.chat.dto.ChatResponseDto;
@@ -22,7 +22,6 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
