@@ -37,7 +37,6 @@ public class UserController {
     private final OAuthService oAuthService;
     private final MailService mailService;
 
-    // 중복 체크
     @Operation(summary = "이메일 중복 확인 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "사용 가능한 이메일"),
@@ -48,7 +47,6 @@ public class UserController {
         return userService.duplicateEmail(emailDto.getEmail());
     }
 
-    // 유효 체크
     @Operation(summary = "이메일 유효 확인 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유효한 사용자의 이메일"),
@@ -59,7 +57,6 @@ public class UserController {
         return userService.validateEmail(emailDto.getEmail());
     }
 
-    // 회원가입
     @Operation(summary = "회원가입 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공"),
@@ -71,7 +68,6 @@ public class UserController {
         return statusService.register(user);
     }
 
-    // 초대 메일로 회원가입
     @Operation(summary = "메일 회원가입 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공"),
@@ -85,7 +81,6 @@ public class UserController {
         return statusService.register(user);
     }
 
-    // 로그인
     @Operation(summary = "로그인 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공"),
@@ -96,7 +91,6 @@ public class UserController {
         return userService.login(loginDto, response);
     }
 
-    // 헤더 프로필
     @Operation(summary = "헤더 프로필 조회 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "프로필 조회 성공")
@@ -106,9 +100,7 @@ public class UserController {
         return userService.userInfo(userDetails.getUser());
     }
 
-    /*
-        소셜 로그인
-     */
+
     @Operation(summary = "구글 소셜 로그인 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소셜 로그인 성공"),

@@ -1,4 +1,4 @@
-package com.gigajet.mhlb.domain.alarm.Entity;
+package com.gigajet.mhlb.domain.alarm.entity;
 
 public enum AlarmTypeEnum {
     CHAT, INVITE
