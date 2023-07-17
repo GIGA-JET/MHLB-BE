@@ -165,7 +165,7 @@ public class ChatMessageService {
 
         Map<Object, Object> room = redisTemplate.opsForHash().entries(endpoint);
 
-        if (room.size() == 1) {//disconnect시 마지막 인원일 경우 바로 삭제
+        if (room.size() == 1) { //disconnect시 마지막 인원일 경우 바로 삭제
             redisTemplate.delete(sessionId);
             redisTemplate.delete(endpoint);
         } else {
