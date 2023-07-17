@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,16 +45,27 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String myAddress;
 
-    // 비밀번호 찾기 메일 발송
-    public ResponseEntity<SendMessageDto> sendFindPasswordMail(String email) {
+    public ResponseEntity<SendMessageDto> beforeSendFindPasswordMail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.UNREGISTER_USER));
         if (user.getType() == SocialType.GOOGLE) {
             throw new CustomException(ErrorCode.SOCIAL_USER);
         }
 
+        return SendMessageDto.toResponseEntity(SuccessCode.VALID_EMAIL);
+    }
+
+    // 비밀번호 찾기 메일 발송
+    @Async("mailExecutor")
+    public void sendFindPasswordMail(String email) {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         saveRandomNumberAndEmail(uuid, email);
 
+        String htmlTag = "<h1><a href='http://localhost:3000/reset-password/" + uuid + "'>비밀번호 변경</a></h1>";
+
+        sendMailAsync(email, htmlTag);
+    }
+
+    private void sendMailAsync(String email, String htmlTag) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
         try {
@@ -62,15 +74,13 @@ public class MailService {
             mimeMessageHelper.setTo(email);
             mimeMessageHelper.setFrom(myAddress);
             mimeMessageHelper.setSubject("PIN ME :: 이메일 인증");
-            mimeMessageHelper.setText("<h1><a href='http://localhost:3000/reset-password/" + uuid + "'>비밀번호 변경</a></h1>", true);
+            mimeMessageHelper.setText(htmlTag, true);
 
             mailSender.send(mimeMessage);
 
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-
-        return SendMessageDto.toResponseEntity(SuccessCode.VALID_EMAIL);
     }
 
     // 비밀번호 찾기 캐시 저장
@@ -121,24 +131,14 @@ public class MailService {
     }
 
     // 워크스페이스 초대 메일 발송
+    @Async("mailExecutor")
     public void sendInviteMail(WorkspaceInvite workspaceInvite) {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         saveRandomNumberAndEmail(uuid, workspaceInvite);
 
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        String htmlTag = "<h1><a href='http://localhost:3000/invite-workspace/" + uuid + "'>Workspace 참여</a></h1>";
 
-            mimeMessageHelper.setTo(workspaceInvite.getEmail());
-            mimeMessageHelper.setFrom(myAddress);
-            mimeMessageHelper.setSubject("PIN ME :: 이메일 인증");
-            mimeMessageHelper.setText("<h1><a href='http://localhost:3000/invite-workspace/" + uuid + "'>Workspace 참여</a></h1>", true);
-
-            mailSender.send(mimeMessage);
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        sendMailAsync(workspaceInvite.getEmail(), htmlTag);
     }
 
     // 워크스페이스 초대 인증 코드 유효 검사 및 회원가입 유무 검사

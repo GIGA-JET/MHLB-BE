@@ -37,6 +37,13 @@ public class OAuthService {
 
         createOAuthUser(googleUserDto);
 
+        /*
+            UT 후 BE가 받은 유일한 피드백
+            로그인 할 때 Token 방식을 사용할 때 Refresh Token은 선택이 아니라 필수
+
+            TODO : Refresh Token 추가
+         */
+
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(googleUserDto.getEmail()));
 
         return SendMessageDto.toResponseEntity(SuccessCode.LOGIN_SUCCESS);
@@ -48,6 +55,14 @@ public class OAuthService {
 
         if (userOptional.isEmpty()) {
             userRepository.save(new User(googleUserDto));
+
+            /*
+                UT 후 소셜 유저가 로그인 할 때만 Status 객체가 null인 이슈 발생
+                기본 회원가입처럼 소셜 유저 회원가입 때 Status 객체를 생성해 데이터베이스에 저장하면 해결 됨
+
+                TODO : 소셜 회원가입 때 Status 객체 생성해 DB에 저장
+             */
+
         } else if (userOptional.get().getType() != SocialType.GOOGLE) {
             throw new CustomException(ErrorCode.NOT_SOCIAL_EMAIL);
         }

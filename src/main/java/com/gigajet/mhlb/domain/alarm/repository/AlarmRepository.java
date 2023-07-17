@@ -1,6 +1,6 @@
-package com.gigajet.mhlb.domain.alarm.Repository;
+package com.gigajet.mhlb.domain.alarm.repository;
 
-import com.gigajet.mhlb.domain.alarm.Entity.Alarm;
+import com.gigajet.mhlb.domain.alarm.entity.Alarm;
 import com.gigajet.mhlb.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

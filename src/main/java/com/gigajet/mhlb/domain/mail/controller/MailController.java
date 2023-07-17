@@ -30,7 +30,9 @@ public class MailController {
     })
     @PostMapping("/check/email")
     public ResponseEntity<SendMessageDto> sendFindPasswordMail(@RequestBody UserRequestDto.CheckEmail emailDto) {
-        return mailService.sendFindPasswordMail(emailDto.getEmail());
+        ResponseEntity<SendMessageDto> responseEntity = mailService.beforeSendFindPasswordMail(emailDto.getEmail());
+        mailService.sendFindPasswordMail(emailDto.getEmail());
+        return responseEntity;
     }
 
     // 비밀번호 찾기 인증 코드 유효 검사

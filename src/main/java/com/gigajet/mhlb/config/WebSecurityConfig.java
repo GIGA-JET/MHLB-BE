@@ -66,10 +66,10 @@ public class WebSecurityConfig {
 
         config.addExposedHeader(JwtUtil.AUTHORIZATION_HEADER);
 
-        config.addAllowedMethod("*");
+//        config.addAllowedMethod("*");
         config.addAllowedMethod("OPTIONS");
 
-        config.addAllowedHeader("*");
+//        config.addAllowedHeader("*");
         config.addAllowedHeader("Access-Control-Request-Headers");
 
         config.setMaxAge(600L);

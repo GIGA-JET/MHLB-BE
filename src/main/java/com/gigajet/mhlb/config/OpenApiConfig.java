@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
+    /*
+        TODO: JWT Auth 기능 추가
+     */
 
     @Bean
     public OpenAPI openAPI(@Value("${springdoc.version}") String springdocVersion) {

@@ -28,9 +28,9 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int port;
 
-    /**
-     * redis의 pub/sub 기능을 이용하기 위해 MessageListener 설정 추가
-     * 메시지 발행이 오면 Listener가 처리함
+    /*
+        redis의 pub/sub 기능을 이용하기 위해 MessageListener 설정 추가
+        메시지 발행이 오면 Listener가 처리함
      */
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(

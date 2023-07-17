@@ -34,6 +34,16 @@ public class ChatService {
     private final WorkspaceUserRepository workspaceUserRepository;
     private final UserRepository userRepository;
 
+    /*
+        1. 챗 보내기 -> DB 저장 -> 브로커를 통한 pub 까지 시간이 꽤 오래 걸림
+        2. 채팅을 보낼 떄 트랜잭션의 독립성이 지켜지지 않아 index 중복 문제 발생
+
+        TODO : 1번 어디서 오래 걸리는지 확인 후 방법 생각해보기
+               2번 효율적인 MongoDB Rock 방법 생각해보기
+               => 애초에 key-value DB인 MongoDB는 RDB와는 다른 인덱싱 전략이 필요
+                  트리 구조로 이루어진 DB이기 때문에 RDB 기준으로 생각하지 않는 것이 중요
+     */
+
     //이전 채팅목록 불러오기
     @Transactional
     public List<ChatResponseDto.Chatting> getChat(User user, Long workspaceId, Long opponentsId, Pageable pageable) {
