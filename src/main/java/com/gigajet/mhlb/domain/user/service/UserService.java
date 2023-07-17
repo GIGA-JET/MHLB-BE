@@ -112,7 +112,6 @@ public class UserService {
         }
 
         /*
-            UT 후 BE가 받은 유일한 피드백
             로그인 할 때 Token 방식을 사용할 때 Refresh Token은 선택이 아니라 필수
 
             TODO : Refresh Token 추가

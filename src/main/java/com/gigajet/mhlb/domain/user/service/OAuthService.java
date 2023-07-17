@@ -1,5 +1,7 @@
 package com.gigajet.mhlb.domain.user.service;
 
+import com.gigajet.mhlb.domain.status.entity.Status;
+import com.gigajet.mhlb.domain.status.repository.StatusRepository;
 import com.gigajet.mhlb.global.common.dto.SendMessageDto;
 import com.gigajet.mhlb.global.common.util.SuccessCode;
 import com.gigajet.mhlb.domain.user.dto.GoogleOAuthRequestDto;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class OAuthService {
 
     private final UserRepository userRepository;
+    private final StatusRepository statusRepository;
 
     private final GoogleOAuth googleOAuth;
     private final JwtUtil jwtUtil;
@@ -54,14 +57,9 @@ public class OAuthService {
         Optional<User> userOptional = userRepository.findByEmail(googleUserDto.getEmail());
 
         if (userOptional.isEmpty()) {
-            userRepository.save(new User(googleUserDto));
+            User user = userRepository.save(new User(googleUserDto));
 
-            /*
-                UT 후 소셜 유저가 로그인 할 때만 Status 객체가 null인 이슈 발생
-                기본 회원가입처럼 소셜 유저 회원가입 때 Status 객체를 생성해 데이터베이스에 저장하면 해결 됨
-
-                TODO : 소셜 회원가입 때 Status 객체 생성해 DB에 저장
-             */
+            statusRepository.save(new Status(user));
 
         } else if (userOptional.get().getType() != SocialType.GOOGLE) {
             throw new CustomException(ErrorCode.NOT_SOCIAL_EMAIL);
